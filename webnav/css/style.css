@@ -33,7 +33,8 @@ q:before,q:after{content:''}
 
 .head-p{margin:0 auto;font: 500 24px/40px 'Hiragino Sans GB','SimHei',Helvetica,Arial,sans-serif;}
 .orange{color: #f60 !important;}
-.hot{color: #f60 !important;}
+.hot-a{color: #f60 !important;}
+.hot-i{color: red !important;background:url(../imgs/hot.jpg) no-repeat -10px -27px;height: 16px;width: 19px; display: inline-block;cursor: pointer;}
 
 .wrap a{color:#666}
 .wrap a:hover{color:#ea4157}
