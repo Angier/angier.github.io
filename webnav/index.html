@@ -5,13 +5,14 @@
 <!--[if IE 8]><html class="ie8" lang="en"><![endif]-->
 <!--[if gt IE 8]><html lang="en"><![endif]-->
 <head>
-<meta charset="UTF-8">
-<title>风骚的舍友--有趣的网址导航</title>
-<meta name="keywords" content="风骚的舍友,趣站,网址,网址导航,上网导航,上网首页,网址导航,网址大全" />
-<meta name="description" content="风骚的舍友，从这里发现有趣的网站。" />
-<link rel="stylesheet" href="css/style.css" />
-<link rel="shortcut icon" href="imgs/favicon.ico" />
-<link rel="bookmark" href="imgs/favicon.ico" />
+	<meta charset="UTF-8">
+	<title>风骚的舍友--有趣的网址导航</title>
+	<meta name="keywords" content="风骚的舍友,趣站,网址,网址导航,上网导航,上网首页,网址导航,网址大全" />
+	<meta name="description" content="风骚的舍友，从这里发现有趣的网站。" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="shortcut icon" href="imgs/favicon.ico" />
+	<link rel="bookmark" href="imgs/favicon.ico" />
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -122,12 +123,25 @@
 						</h3>
 						<ul>
 							<li><a target="_blank" href="http://www.cnblogs.com/">博客园</a></li>
-							<li><a target="_blank" href="http://www.importnew.com/">ImportNew(Java)</a></li>
+							<li><a target="_blank" href="http://www.importnew.com/">ImportNew</a></li>
+							<li><a target="_blank" href="http://www.bejson.com/" class="orange">Json工具</a></li>
 
 
 						</ul>
 					</div>
 					
+					<div class="category category-highlight">
+						<h3>
+							<b class="category-5-6"></b>前端
+						</h3>
+						<ul>
+							<li><a target="_blank" href="http://www.jq22.com/">jQuery插件</a></li>
+							<li><a target="_blank" href="http://www.webhek.com/">Web骇客</a></li>
+							<li><a target="_blank" href="http://www.wix.com/website/templates">web templates</a></li>
+							
+
+						</ul>
+					</div>	
 					<div class="category category-highlight">
 						<h3>
 							<b class="category-5-14"></b>DIY
@@ -168,8 +182,8 @@
 							<li><a target="_blank" href="http://www.iqiyi.com/">爱奇艺</a></li>
 							<li><a target="_blank" href="http://www.letv.com/">乐TV</a></li>
 							<li><a target="_blank" href="http://tv.sohu.com/">搜狐高清</a></li>
-							<li><a target="_blank" href="http://www.tudou.com/">土豆网</a></li>
 							<li><a target="_blank" href="http://v.qq.com/">腾讯视频</a></li>
+							<li><a target="_blank" href="http://www.tudou.com/">土豆网</a></li>
 							
 							<li><a target="_blank" href="http://www.mtime.com/">时光网</a></li>
 							<li><a target="_blank" href="http://movie.douban.com/">豆瓣电影</a></li>
@@ -189,7 +203,6 @@
 							
 						</ul>
 					</div>
-					
 					
 					<div class="category category-highlight">
 						<h3>
@@ -322,25 +335,33 @@
 					
 				</div>
 			</div>
+			
+			<div id="full-top" style="position:fixed; left:50%; top:720px; margin-left:505px; z-index:100; text-align:center; cursor:pointer;">
+				<a><img src="imgs/back-top.png" width="25" border="0" alt="返回顶部" title="返回顶部"></a>
+			</div>
+			<div id="full-btm" style="position:fixed; left:50%; top:750px; margin-left:505px; z-index:100; text-align:center; cursor:pointer;">
+				<a><img src="imgs/back-btm.png" width="25" border="0" alt="跳到底部" title="跳到底部"></a>
+			</div>
 
 			
 			
 			<div class="bottom" id="bottom">
-				<p>&copy; 2015 风骚的舍友(The Excellence Roommates), 有趣的网址导航</p>
+				<p>&copy; 2015 风骚的舍友(The Excellence Roommates), <a href="http://angier.github.io/view/love.html" target="_blank" style="color: #CCC;">有趣</a>的网址导航</p>
 			</div>
 		</div>
 	</div>
 	
-	<script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "//hm.baidu.com/hm.js?d898235966a7dcbef1b9f5bd31a7b130";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-	</script>
 	<script type="text/javascript">
+		//百度统计 start------
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?d898235966a7dcbef1b9f5bd31a7b130";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+		//百度统计 end------
+	
 		function SetHome(url) {
 			if (document.all) {
 				document.body.style.behavior = 'url(#default#homepage)';
@@ -349,6 +370,19 @@
 				location.href = "/setting/";
 			}
 		}
+			
+		jQuery('#full-top').click(function(){
+			jQuery('html, body').animate({scrollTop:0}, 'slow');
+			return false;
+		});
+		
+		jQuery('#full-btm').click(function(){
+			jQuery('html, body').animate({scrollTop:jQuery(document).height()}, 'slow');
+			return false;
+		});
+
+
+
 	</script>
 </body>
 </html>
