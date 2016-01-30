@@ -38,17 +38,17 @@
 				<div class="board-search-b">
 					<div class="board-search">
 						<form action="http://www.baidu.com/s" type="get" target="_blank">
-							<label for="searchBaidu" class="board-search-baidu" onclick="">百度搜索</label>
+							<label for="searchBaidu" class="board-search-baidu" onclick="this.form.submit()">百度搜索</label>
 							<input id="searchBaidu" type="text" class="board-search-txt" name="wd" />
 							<input type="submit" value="提交" class="board-search-bt" />
 						</form>
 						<form action="https://g.wen.lu/search" type="get" target="_blank">
-							<label for="searchGoogle" class="board-search-google">谷歌搜索</label>
+							<label for="searchGoogle" class="board-search-google" onclick="this.form.submit()">谷歌搜索</label>
 							<input id="searchGoogle" type="text" class="board-search-txt" name="q" />
 							<input type="submit" value="提交" class="board-search-bt" />
 						</form>
 						<form action="http://cn.bing.com/search" type="get" target="_blank">
-							<label for="searchBing" class="board-search-bing">必应搜索</label>
+							<label for="searchBing" class="board-search-bing" onclick="this.form.submit()">必应搜索</label>
 							<input id="searchBing" type="text" class="board-search-txt" name="q" />
 							<input type="submit" value="提交" class="board-search-bt" />
 						</form>
@@ -189,8 +189,9 @@
 							<li><a target="_blank" href="http://www.iqiyi.com/">爱奇艺</a></li>
 							<li><a target="_blank" href="http://www.letv.com/">乐视TV</a></li>
 							<li><a target="_blank" href="http://tv.sohu.com/">搜狐高清</a></li>
-							<li><a target="_blank" href="http://v.qq.com/">腾讯视频</a></li>
+							<li><a target="_blank" href="http://www.diediao.com/" class="orange">碟调网</a></li>
 							
+							<li><a target="_blank" href="http://v.qq.com/">腾讯视频</a></li>
 							<li><a target="_blank" href="http://www.tudou.com/">土豆网</a></li>
 							<li><a target="_blank" href="http://www.mtime.com/">时光网</a></li>
 							<li><a target="_blank" href="http://movie.douban.com/">豆瓣电影</a></li>

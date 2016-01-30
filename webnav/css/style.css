@@ -52,9 +52,9 @@ q:before,q:after{content:''}
 .board-search form{padding:15.5px 0;height:25px;line-height:25px;border-bottom:1px dotted #efefef}
 .board-search .board-search-last{border-bottom:0}
 .board-search form label{float:left;_display:inline;margin-right:10px;width:112px;height:25px;text-indent:-9999px}
-.board-search form .board-search-google{background:url(../imgs/icons.png) no-repeat 0 -228px #FFF}
-.board-search form .board-search-baidu{margin-top:-6px;height:33px;background:url(../imgs/icons.png) no-repeat 0 -188px #FFF}
-.board-search form .board-search-bing{background:url(../imgs/icons.png) no-repeat 0 -266px #FFF}
+.board-search form .board-search-google{background:url(../imgs/icons.png) no-repeat 0 -228px #FFF;cursor:pointer;}
+.board-search form .board-search-baidu{margin-top:-6px;height:33px;background:url(../imgs/icons.png) no-repeat 0 -188px #FFF;cursor:pointer;}
+.board-search form .board-search-bing{background:url(../imgs/icons.png) no-repeat 0 -266px #FFF;cursor:pointer;}
 .board-search-txt{float:left;padding:4px 0 4px 5px;width:156px;height:17px;line-height:17px;outline:0;background:url(../imgs/icons.png) no-repeat 0 -891px;border:0}
 .board-search-txt:focus{background-position:0 -865px}
 .board-search-bt{float:left;margin-left:-5px;width:23px;height:25px;text-indent:-9999px;cursor:pointer;background:url(../imgs/icons.png) no-repeat -163px -891px;border:0}
