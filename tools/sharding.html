@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>分库分表</title>
+
+<style type="text/css">
+	*{ padding:0; margin:0;}
+	html{height: 100%;}
+	body{ font-size:12px; min-width:900px;  font-family:'微软雅黑';}
+	a{ color:#222; text-decoration:none;}
+	 
+	.clearfix:after{ clear:both; display:block; content:'';}
+	.clearfix{ zoom:1;}
+	.wrap{ width:1000px; margin:0 auto; }
+	input:focus,textarea:focus{box-shadow:0 0 3px 1px rgba(32, 127, 179, 0.4);outline: 0 none;}
+	/******************************* 其他样式 *******************************/
+	/*错误提示*/
+	.err{ float:left; height:20px; line-height:20px; text-align:right; font-size:12px; width:100%; color:red; display:none; position:absolute; left:0px;}
+	.err img{ margin-top:2px; margin-right:2px;}
+	.err-top40{ top:40px;}
+	.err-top20{ top:20px;}
+	.err-top160{ top:160px;}
+	.err-top90{ top:90px;} 
+
+	/*登录*/
+	.login-box-cen{ width:240px; border:1px solid #cccccc; margin:0px auto 0px; height:318px; border-radius:10px; padding:0 64px; background:#fff;}
+	.login-box-cen-ti{ height:76px; line-height:76px; text-align:center; color:#222222; font-size:16px}
+	.login-box-cen-form{ position:relative;}
+	.login-box-cen-form-input{ float:left; padding-left:20px; border:1px solid #ccc; height:38px; line-height:38px; font-size:14px; color:#999999;}
+	.login-box-cen-form-select{ float:left; padding-left:20px; border:1px solid #ccc; height:38px; line-height:38px; font-size:14px; color:#999999;background:#fff;}
+	.login-box-cen-form-button{float:left; height:40px; line-height:40px; font-size:14px; color:#fff; text-align:center; background:#207fb3; cursor:pointer;}
+	.login-box-cen-form-ot{ height:30px; line-height:30px; text-align:right; font-size:12px;}
+	.login-box-cen-form-ot span{color:#999999;}
+	.login-box-cen-form-ot a{ color:#207fb3;}
+
+	.w218{ width:218px;}
+	.w238{ width:238px;}
+	.mar-bottom10{ margin-bottom:10px;}
+	/*注册*/
+
+	.register-box-con{ width:380px; padding: 0 310px; background:#fff; padding-bottom:180px;}
+	.register-box-con-ti{ height:114px; line-height:114px; text-align:center; font-size:14px; color:#222222; letter-spacing:1px;}
+	.login-box-cen-form-img{ float:left; height:40px; line-height:40px;overflow:hidden; background:#207fb3;}
+	.login-box-cen-form-mes{ float:left;border:none; height:40px; line-height:40px; text-align:center;font-size:14px; color:#fff; background:#207fb3; cursor:pointer; border-radius:5px;}
+	.register-box-cen-form{ position:relative;}
+	.register-box-cen-form-xieyi{ height:16px; line-height:16px;}
+	.register-box-cen-form-xieyi span{ display:inline-block; position:relative; height:16px; line-height:16px; width:17px; vertical-align:top; margin:0 36px 0 44px; cursor:pointer; background-image:url(../images/register_03.png); background-repeat:no-repeat; background-position:0px 0px;}
+	.register-box-cen-form-xieyi span.ok{background-position:-17px 0px;}
+	.register-box-cen-form-xieyi em{display:inline-block; height:16px; line-height:16px;vertical-align:top; font-size:14px;}
+	.register-box-cen-form-xieyi a{ color:#207fb3;}
+
+	.register-box-con2-box{}
+	.register-box-con2-box-left{ height:40px; line-height:40px; text-align:right; float:left; width:293px; color:#222222; font-size:16px;}
+	.register-box-con2-box-left strong{ font-weight: bold;}
+	.register-box-con2-box-right{float:left; width:380px; margin-left:20px; position:relative;}
+	.register-box-con2-box-right .register-box-con2-box-right-text{ font-size:16px; color:#207fb3; margin-left:20px; line-height:40px;}
+	.login-box-cen-form-textarea{float:left; padding-left:20px; border:1px solid #ccc;line-height:38px; font-size:14px; color:#999999; resize:none;}
+	.register-box-con2-box-upload{ position:relative; width:165px; height:98px; float:left;border:1px solid #ccc; margin-bottom:12px; float:left;}
+	.register-box-con2-box-upload .register-box-con2-box-upload-ti{ position:absolute; left:0px; top:0px;width:165px; height:98px; text-align:center; line-height:98px; font-size:18px; color:#207fb3; z-index:9; overflow:hidden; text-align:center; display:table-cell; }
+	.register-box-con2-box-upload .register-box-con2-box-upload-ti img{vertical-align:middle;}
+	.register-box-con2-box-upload input{ position:absolute; left:0px; top:0px;width:165px;z-index:99; opacity:0;filter:alpha(opacity=0);}
+	.register-box-con2-box-pw{ height:25px; line-height:25px; font-size:14px; color:#222222; float:left; width:380px;}
+
+
+	.w358{ width:358px;}
+	.w228{ width:228px;}
+	.w120{ width:120px;}
+	.w380{ width:380px;}
+	.w278{ width:278px;}
+	.h88{ height:88px;}
+	.mar-top50{ margin-top:50px;}
+	.mar-left10{ margin-left:10px;}
+	.mar-bottom20{ margin-bottom:20px;}
+	.bitian{ color:#dc2b2b;}
+</style>
+</head>
+
+<body>
+
+<br /><br />
+<h4 style="font-size:16px; text-align:center; font-weight:bold;">分库分表</h4>    
+<br /><br />
+<!--中心-->
+<div class="content">
+	<div class="register-box">
+		<div class="wrap">
+			<div class="register-box-con2">   
+
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"><em class="bitian">*</em>ID</label>
+					<div class="register-box-con2-box-right">
+						<input type="text" class="login-box-cen-form-input w358" placeholder="数据ID" id="data_id">
+						<label class="err err-top40" id="data_id_text"  >请输入ID</label>
+					</div>
+				</div>
+
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"><em class="bitian"></em>策略</label>
+					<div class="register-box-con2-box-right">
+						<select class="login-box-cen-form-select w228" id="rule_type">
+							<option value ="1">后5位</option>
+							<option value ="2">后10前5位</option>
+							<option value ="3">前5位</option>
+						</select>
+						<label class="err err-top40" id="rule_type_text"></label>
+					</div>
+				</div>
+
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"><em class="bitian"></em>分库</label>
+					<div class="register-box-con2-box-right">
+						<select class="login-box-cen-form-select w228" id="db_num">
+							<option value ="2">2</option>
+							<option value ="4">4</option>
+						</select>
+						<label class="err err-top40" id="db_num_text"></label>
+					</div>
+				</div>
+
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"><em class="bitian"></em>分表</label>
+					<div class="register-box-con2-box-right">
+						<select class="login-box-cen-form-select w228" id="table_num">
+							<option value ="32">32</option>
+							<option value ="64">64</option>
+							<option value ="128" selected="">128</option>
+							<option value ="256">256</option>
+							<option value ="512">512</option>
+						</select>
+						<label class="err err-top90" id="table_num_text"></label>
+					</div>
+				</div>
+				
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"><em class="bitian"></em>结果</label>
+					<div class="register-box-con2-box-right">
+						<textarea class="login-box-cen-form-textarea w358 h88" id="result" placeholder=""></textarea>
+						<label class="err err-top90" id="result_text"></label>
+					</div>
+				</div>
+				
+				
+				<div class="register-box-con2-box clearfix mar-bottom20 mar-top50">
+					<label class="register-box-con2-box-left"></label>
+					<div class="register-box-con2-box-right">
+						<input type="submit" value="计算" class="login-box-cen-form-button w380" id="info_submit" />
+					</div>
+				</div>
+				
+			</div>
+		</div>        	
+	</div>	
+</div>
+<br /><br />
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		$("#info_submit").click(function(){
+			var data_id = $("#data_id").val();
+			data_id = $.trim(data_id);
+			if(data_id==''){
+				$("#data_id_text").text('请输入ID').show();
+				return;
+			}else{
+				$("#data_id_text").hide();
+			}
+
+			var rule_type = $("#rule_type").val();		
+			var db_num = $("#db_num").val();	
+			var table_num = $("#table_num").val();		
+
+			$("#result").val("");
+			if(rule_type==1){//后5
+				var last = getLastNumber(data_id, 5);
+
+				var db = getFirstNumber(last,2) % db_num;
+
+				var table = getLastNumber(last,3) % table_num;
+
+				$("#result").val("库："+ db +"\n表："+ table);
+			}else if(rule_type==2){//后10前5
+				var last = getFirstNumber(getLastNumber(data_id, 10), 5);
+
+				var db = getFirstNumber(last,2) % db_num;
+
+				var table = getLastNumber(last,3) % table_num;
+
+				$("#result").val("库："+ db +"\n表："+ table);
+			}else if(rule_type==3){//前5
+				if (5 > data_id.length) {
+		            $("#data_id_text").text('ID长度不够').show();
+					return;
+		        }
+				var last = getFirstNumber(data_id, 5);
+
+				var db = getFirstNumber(last,2) % db_num;
+
+				var table = getLastNumber(last,3) % table_num;
+
+				$("#result").val("库："+ db +"\n表："+ table);
+			}	
+
+		});
+		
+		
+			
+	});
+
+	function getLastNumber( idStr,  length) {
+        var size = Math.min(idStr.length, length);
+        idStr = idStr.substring(idStr.length - size);
+        return pad(idStr,length);
+    }
+
+    function getFirstNumber( idStr,  length) {
+        if (length > idStr.length) {
+            return '';
+        } else {
+            idStr = idStr.substring(0, length);
+            return pad(idStr,length);
+        }
+    }
+
+    function pad(num, length) {
+	    var len = num.toString().length;
+	    while(len < length) {
+	        num = "0" + num;
+	        len++;
+	    }
+	    return num;
+	}
+</script>
+
+<div style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p style="display: none;">本页面由 阿胡哥 提供技术支持</p>
+
+</div>
+</body>
+</html>
+
