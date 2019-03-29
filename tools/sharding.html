@@ -168,6 +168,10 @@
 				$("#data_id_text").hide();
 			}
 
+			if(!isNumber(data_id)){
+				data_id = hashCode(data_id) + '';
+			}
+
 			var rule_type = $("#rule_type").val();		
 			var db_num = $("#db_num").val();	
 			var table_num = $("#table_num").val();		
@@ -232,6 +236,55 @@
 	    }
 	    return num;
 	}
+
+
+	function isNumber(val){
+	    var regPos = /^\d+$/;
+	    if(regPos.test(val)){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+
+	function isNull(str){  
+        return str == null || str.value == "";  
+    }  
+      
+    /** 
+     * java String hashCode 的实现 
+     * @param strKey 
+     * @return intValue 
+     */  
+    function hashCode(strKey) {  
+        var hash = 0;  
+        if(!isNull(strKey))  
+        {  
+            for (var i = 0; i < strKey.length; i++)  
+            {  
+                hash = hash * 31 + strKey.charCodeAt(i);  
+                hash = intValue(hash);  
+            }  
+        }  
+
+        console.log(hash);
+        return hash;  
+    }  
+  
+    /** 
+     * 将js页面的number类型转换为java的int类型 
+     * @param num 
+     * @return intValue 
+     */  
+    function intValue(num) {  
+        var MAX_VALUE = 0x7fffffff;  
+        var MIN_VALUE = -0x80000000;  
+        if(num > MAX_VALUE || num < MIN_VALUE)  
+        {  
+            return num &= 0xFFFFFFFF;  
+        }  
+        return num;  
+    }  
 </script>
 
 <div style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">
