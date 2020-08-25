@@ -113,6 +113,7 @@
 							<option value ="1">后5位</option>
 							<option value ="2">后10前5位</option>
 							<option value ="3">前5位</option>
+							<option value ="4">后5位前2-后10前5位后3</option>
 						</select>
 						<label class="err err-top40" id="rule_type_text"></label>
 					</div>
@@ -217,7 +218,13 @@
 				var table = getLastNumber(last,3) % table_num;
 
 				$("#result").val("库："+ db +"\n表："+ table);
-			}	
+			}else if(rule_type==4){//后5前2分库    后10前5后3分表
+				var db = getFirstNumber(getLastNumber(data_id, 5), 2) % db_num;
+
+				var table = getLastNumber(getFirstNumber(getLastNumber(data_id, 10), 5),3) % table_num;
+
+				$("#result").val("库："+ db +"\n表："+ table);
+			}
 
 		});
 		
