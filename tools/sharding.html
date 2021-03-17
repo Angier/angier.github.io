@@ -104,6 +104,10 @@
 						<input type="text" class="login-box-cen-form-input w358" placeholder="数据ID" id="data_id">
 						<label class="err err-top40" id="data_id_text"  >请输入ID</label>
 					</div>
+
+					<div >
+						<input type="checkBox" name="is_hash" id="is_hash" class="mar-left10" value="1"/>是否取hash
+					</div>
 				</div>
 
 				<div class="register-box-con2-box clearfix mar-bottom20">
@@ -181,7 +185,8 @@
 				$("#data_id_text").hide();
 			}
 
-			if(!isNumber(data_id)){
+			var is_hash = $("#is_hash").is(':checked');
+			if(!isNumber(data_id) || is_hash){
 				data_id = hashCode(data_id) + '';
 			}
 
