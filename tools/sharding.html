@@ -73,6 +73,9 @@
 	.mar-left10{ margin-left:10px;}
 	.mar-bottom20{ margin-bottom:20px;}
 	.bitian{ color:#dc2b2b;}
+
+	#payCode{width:50px; height:50px;text-align:center;font-size:16px;color:red;position:absolute;right:110px; top:10px;cursor:pointer;}
+
 </style>
 
 <script>
@@ -168,8 +171,18 @@
 			</div>
 		</div>        	
 	</div>	
+
+
+	<div id="payCode">
+  		<a title="点击关闭"><b></b></a>
+
+  		<div class="content"><img src="imgs/payCode.jpg" style="width:150px; height:150px;"></div>
+	</div>
 </div>
 <br /><br />
+
+
+
 
 <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 
@@ -228,13 +241,16 @@
 
 				var table = getLastNumber(getFirstNumber(getLastNumber(data_id, 10), 5),3) % table_num;
 
-				$("#result").val("库："+ db +"\n表："+ table);
+				$("#result").val("库："+ db +"\n表："+ (table+128));
 			}
 
 		});
 		
 		
-			
+		$("#payCode").click(function(){
+			$("#payCode").hide();
+		});	
+
 	});
 
 	function getLastNumber( idStr,  length) {
