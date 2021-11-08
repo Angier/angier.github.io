@@ -1,0 +1,359 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>格式化ES</title>
+<link rel="shortcut icon" href="http://angier.cn/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="css/jquery.jsonview.css" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="js/jquery.jsonview.js"></script>
+<script src="js/jquery.jsontotable.min.js"></script>
+
+
+<style type="text/css">
+	*{ padding:0; margin:0;}
+	html{height: 100%;}
+	body{ font-size:12px; min-width:900px;  font-family:'微软雅黑';}
+	a{ color:#222; text-decoration:none;}
+	 
+	.clearfix:after{ clear:both; display:block; content:'';}
+	.clearfix{ zoom:1;}
+	.wrap{ width:1000px; margin:0 auto; }
+	input:focus,textarea:focus{box-shadow:0 0 3px 1px rgba(32, 127, 179, 0.4);outline: 0 none;}
+	/******************************* 其他样式 *******************************/
+	/*错误提示*/
+	.err{ float:left; height:20px; line-height:20px; text-align:right; font-size:12px; width:100%; color:red; display:none; position:absolute; left:0px;}
+	.err img{ margin-top:2px; margin-right:2px;}
+	.err-top40{ top:40px;}
+	.err-top20{ top:20px;}
+	.err-top160{ top:160px;}
+	.err-top90{ top:90px;} 
+
+	/*登录*/
+	.login-box-cen{ width:240px; border:1px solid #cccccc; margin:0px auto 0px; height:318px; border-radius:10px; padding:0 64px; background:#fff;}
+	.login-box-cen-ti{ height:76px; line-height:76px; text-align:center; color:#222222; font-size:16px}
+	.login-box-cen-form{ position:relative;}
+	.login-box-cen-form-input{ float:left; padding-left:20px; border:1px solid #ccc; height:38px; line-height:38px; font-size:14px; color:#999999;}
+	.login-box-cen-form-select{ float:left; padding-left:20px; border:1px solid #ccc; height:38px; line-height:38px; font-size:14px; color:#999999;background:#fff;}
+	.login-box-cen-form-button{float:left; height:40px; line-height:40px; font-size:14px; color:#fff; text-align:center; background:#207fb3; cursor:pointer;}
+	.login-box-cen-form-ot{ height:30px; line-height:30px; text-align:right; font-size:12px;}
+	.login-box-cen-form-ot span{color:#999999;}
+	.login-box-cen-form-ot a{ color:#207fb3;}
+
+	.w218{ width:218px;}
+	.w238{ width:238px;}
+	.mar-bottom10{ margin-bottom:10px;}
+	/*注册*/
+
+	.register-box-con{ width:380px; padding: 0 310px; background:#fff; padding-bottom:180px;}
+	.register-box-con-ti{ height:114px; line-height:114px; text-align:center; font-size:14px; color:#222222; letter-spacing:1px;}
+	.login-box-cen-form-img{ float:left; height:40px; line-height:40px;overflow:hidden; background:#207fb3;}
+	.login-box-cen-form-mes{ float:left;border:none; height:40px; line-height:40px; text-align:center;font-size:14px; color:#fff; background:#207fb3; cursor:pointer; border-radius:5px;}
+	.register-box-cen-form{ position:relative;}
+	.register-box-cen-form-xieyi{ height:16px; line-height:16px;}
+	.register-box-cen-form-xieyi span{ display:inline-block; position:relative; height:16px; line-height:16px; width:17px; vertical-align:top; margin:0 36px 0 44px; cursor:pointer; background-image:url(../images/register_03.png); background-repeat:no-repeat; background-position:0px 0px;}
+	.register-box-cen-form-xieyi span.ok{background-position:-17px 0px;}
+	.register-box-cen-form-xieyi em{display:inline-block; height:16px; line-height:16px;vertical-align:top; font-size:14px;}
+	.register-box-cen-form-xieyi a{ color:#207fb3;}
+
+	.register-box-con2-box{}
+	.register-box-con2-box-left{ height:40px; line-height:40px; text-align:right; float:left; width:293px; color:#222222; font-size:16px;}
+	.register-box-con2-box-left strong{ font-weight: bold;}
+	.register-box-con2-box-right{float:left; width:380px; margin-left:20px; position:relative;}
+	.register-box-con2-box-right .register-box-con2-box-right-text{ font-size:16px; color:#207fb3; margin-left:20px; line-height:40px;}
+	.login-box-cen-form-textarea{float:left; padding-left:20px; border:1px solid #ccc;line-height:38px; font-size:14px; color:#999999; resize:none;}
+	.register-box-con2-box-upload{ position:relative; width:165px; height:98px; float:left;border:1px solid #ccc; margin-bottom:12px; float:left;}
+	.register-box-con2-box-upload .register-box-con2-box-upload-ti{ position:absolute; left:0px; top:0px;width:165px; height:98px; text-align:center; line-height:98px; font-size:18px; color:#207fb3; z-index:9; overflow:hidden; text-align:center; display:table-cell; }
+	.register-box-con2-box-upload .register-box-con2-box-upload-ti img{vertical-align:middle;}
+	.register-box-con2-box-upload input{ position:absolute; left:0px; top:0px;width:165px;z-index:99; opacity:0;filter:alpha(opacity=0);}
+	.register-box-con2-box-pw{ height:25px; line-height:25px; font-size:14px; color:#222222; float:left; width:380px;}
+
+
+	.w358{ width:358px;}
+	.w228{ width:228px;}
+	.w120{ width:120px;}
+	.w380{ width:380px;}
+	.w278{ width:278px;}
+	.w558{ width:558px;}
+	.h88{ height:88px;}
+	.h158{ height:158px;}
+	.h388{ height:388px;}
+	.mar-top50{ margin-top:50px;}
+	.mar-left5{ margin-left:5px;}
+	.mar-left10{ margin-left:10px;}
+	.mar-bottom20{ margin-bottom:20px;}
+	.bitian{ color:#dc2b2b;}
+	.hide{ display: :none;}
+
+    .jsontotable table { border-collapse: collapse; border-spacing: 0; }
+	.jsontotable table, .jsontotable th, .jsontotable td { border: 1px solid black; margin: 1px; }
+	.jsontotable table>thead>tr>th {text-align: left;padding: 8px;}
+	.jsontotable table>tbody>tr>td {padding: 4px;}
+
+</style>
+
+<script>
+	<!-- 百度统计 -->
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?c03806ede2152a8dba9823445769b537";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+</head>
+
+<body>
+
+<br /><br />
+<h4 style="font-size:16px; text-align:center; font-weight:bold;">格式化ES结果集</h4>    
+<br /><br />
+<!--中心-->
+<div class="content">
+	<div class="register-box">
+		<div class="wrap">
+			<div class="register-box-con2">   
+
+								
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"><em class="bitian">*</em>原json</label>
+					<div class="register-box-con2-box-right">
+						<textarea class="login-box-cen-form-textarea w558 h158" style="resize: auto;line-height: 20px;" id="esInfo" 
+							placeholder="请输入es结果集原文"></textarea>
+						<label class="err err-top160 w558" id="esInfo_text"></label>
+					</div>
+				</div>
+
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left">解析字段</label>
+					<div class="register-box-con2-box-right">
+						<input type="text" class="login-box-cen-form-input w358" placeholder="请输入要解析字段,用逗号分隔(如id,name,age)" id="filed">
+						<label class="err err-top40" id="filed_text"  >请输入要解析字段</label>
+					</div>
+				</div>
+				
+				<div class="register-box-con2-box clearfix mar-bottom20 ">
+					<label class="register-box-con2-box-left">转换方式</label>
+					<div class="register-box-con2-box-right">
+						<select id="formatType" class="login-box-cen-form-select "> 
+						　　<option value="1">json</option> 
+						　　<option value="2">table</option> 
+						　　<option value="3">text</option> 
+						</select> 
+						
+						<div id="is_distinctDiv" style="display: none;">
+							<input type="checkBox" name="is_distinct" id="is_distinct" class="mar-left10" value="0"/>是否去重
+						</div>
+					</div>
+
+					
+				</div>
+				
+				<div class="register-box-con2-box clearfix mar-bottom20 ">
+					<label class="register-box-con2-box-left"></label>
+					<div class="register-box-con2-box-right">
+						<input type="submit" value="转换" class="login-box-cen-form-button w120" id="info_submit" />
+						
+					</div>
+				</div>
+
+
+
+				<div class="register-box-con2-box clearfix mar-bottom20 mar-top50">
+					<label class="register-box-con2-box-left"><em class="bitian"></em>结果</label>
+					<div class="register-box-con2-box-right">
+
+						<div id="jsonResult" class="hide"></div>	
+
+						<div id="tableResult" class="hide jsontotable"></div>	 
+
+						<textarea class="login-box-cen-form-textarea w558 h388 hide" style="resize: auto;line-height: 20px;"  id="textResult" 
+							 placeholder=""></textarea>
+
+
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>        	
+	</div>	
+</div>
+<br /><br />
+
+<script type="text/javascript">
+	$(function(){
+		$("#formatType").change(function(event) {			
+			$("#is_distinctDiv").hide();
+			if($(this).val() == 3){
+				$("#is_distinctDiv").show();
+			}
+			
+		});
+
+		$("#info_submit").click(function(){
+			var esInfo = $("#esInfo").val();
+			esInfo = $.trim(esInfo).replace(/"""/g, "'");
+			if(esInfo==''){
+				$("#esInfo_text").html("请输入es结果集").show();
+				return;
+			}else{
+				$("#esInfo_text").hide();
+			}
+
+			//格式json串
+			//var esObj = $.parseJSON(esInfo);
+			//var esObj = JSON.parse(esInfo);
+			var esObj = (new Function("return " + esInfo))();
+			if(!esObj.hits){
+				$("#esInfo_text").html("请输入正确的es结果集").show();
+				return;
+			}
+
+			esObj = esObj.hits.hits;
+			if(!esObj){
+				$("#esInfo_text").html("请输入正确的es结果集").show();
+				return;
+			}
+
+
+			var formatType = $("#formatType").val();
+
+			//字段
+			var filedArray = [];
+			var filed = $("#filed").val();
+			if(filed){
+				filedArray = filed.replace(/，/g, ",").split(",");
+			}
+
+
+			var esJson = [];
+
+			//获取标题	
+			var headerObj = {};
+			esObj.forEach(function(e) {
+				var tmp = e._source;
+
+				for (var obj in tmp){
+					if(containsFiled(filedArray, obj)){
+						headerObj[obj] = obj;
+					}				
+				}	
+			});
+
+			
+
+			if(formatType==2){	
+				esJson.push(headerObj);
+		    }
+
+			//解析所需字段
+			esObj.forEach(function(e) {
+				var dataObj = {};
+				var tmp = e._source;
+
+				for (var obj in headerObj){
+					dataObj[obj] = '';
+				}
+				for (var obj in tmp){
+					if(containsFiled(filedArray, obj)){
+						dataObj[obj] = tmp[obj];
+					}
+				}	
+
+			    esJson.push(dataObj);
+			});
+			
+
+			$("#jsonResult").html("").hide();
+			$("#tableResult").html("").hide();
+			$("#textResult").val("").hide();
+			
+
+			if(formatType==1){
+				//json格式
+				//$("#jsonResult").JSONView(esJson, {nl2br: true});
+			    //$("#jsonResult").show();
+
+			    var result = JSON.stringify(esJson, null, "\t");
+			    $("#textResult").val(result).show();
+
+			    return;
+			}
+
+			if(formatType==2){				
+				//table格式
+				$.jsontotable(esJson, { id: "#tableResult", header: true });
+				
+				$("#tableResult").show();
+
+				return;
+			}
+			 
+			if(formatType==3){
+				//文本格式
+				var result = "";				
+
+				var map = new Map();
+				esJson.forEach(function(tmp) {
+
+					for (var obj in tmp){
+						var filedValArray = map.get(obj) || [];
+						filedValArray.push(tmp[obj]);
+
+						map.set(obj,filedValArray);
+					}
+										
+				     
+				});
+
+
+				var is_distinct = $("#is_distinct").is(':checked');
+				map.forEach(function(value,key){
+					if(is_distinct){
+						//是否去重
+						//value = $.unique(value);
+						value = Array.from(new Set(value));
+						//value = $.grep(value, function (e) { return e!=''; });
+					}
+					var tmp = "\"" + value.join("\",\"") + "\"";
+					//console.log(typeof value[0] );
+					if(typeof value[0] == 'number'){						
+						tmp = value.join(",");
+					}
+
+				　　result += "" + key + " : " + tmp + "\n\n";
+
+				})
+
+			    $("#textResult").val(result).show();
+
+			    return;
+			}
+
+
+		});
+		 
+			
+	});
+
+
+	function containsFiled(filedArray, objFiled) {  
+		if(filedArray.length==0 || filedArray.indexOf(objFiled) >= 0){
+			return true;
+		}
+	 	return false;  
+	}
+
+	
+</script>
+
+<div style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p style="display: none;">本页面由 阿胡哥 提供技术支持</p>
+
+</div>
+</body>
+</html>
+
