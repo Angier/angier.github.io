@@ -203,9 +203,12 @@
 				$("#esInfo_text").hide();
 			}
 
+            esInfo = esInfo.replace(/\b(\d+)\b/g, replaceOverflow);
+            //esInfo = esInfo.replace(/\s(\d+)\b/g, replaceOverflow);
 			//格式json串
 			//var esObj = $.parseJSON(esInfo);
 			//var esObj = JSON.parse(esInfo);
+			//var esObj = eval('(' + esInfo + ')');
 			var esObj = (new Function("return " + esInfo))();
 			if(!esObj.hits){
 				$("#esInfo_text").html("请输入正确的es结果集").show();
@@ -259,7 +262,11 @@
 				}
 				for (var obj in tmp){
 					if(containsFiled(filedArray, obj)){
-						dataObj[obj] = tmp[obj];
+						var val = tmp[obj];
+						if(val == null || val == 'null'){
+							val = '';
+						}
+						dataObj[obj] = val;
 					}
 				}	
 
@@ -345,6 +352,15 @@
 			return true;
 		}
 	 	return false;  
+	}
+
+	//检测数字是否可能溢出的方法
+	function replaceOverflow(yytext){
+		//yytext = $.trim(yytext);
+		if(yytext.length < 17){
+			return yytext;
+		}
+	   return String(Number(yytext))==yytext ? yytext:`'${yytext}'`;
 	}
 
 	
