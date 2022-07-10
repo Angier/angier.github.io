@@ -1,0 +1,333 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>对比list</title>
+<link rel="shortcut icon" href="https://angier.cn/images/favicon.ico" type="image/x-icon">
+<style type="text/css">
+	*{ padding:0; margin:0;}
+	html{height: 100%;}
+	body{ font-size:12px; min-width:900px;  font-family:'微软雅黑';}
+	a{ color:#222; text-decoration:none;}
+	 
+	.clearfix:after{ clear:both; display:block; content:'';}
+	.clearfix{ zoom:1;}
+	.wrap{ width:1000px; margin:0 auto; }
+	input:focus,textarea:focus{box-shadow:0 0 3px 1px rgba(32, 127, 179, 0.4);outline: 0 none;}
+	/******************************* 其他样式 *******************************/
+	/*错误提示*/
+	.err{ float:left; height:20px; line-height:20px; text-align:right; font-size:12px; width:100%; color:red; display:none; position:absolute; left:0px;}
+	.err img{ margin-top:2px; margin-right:2px;}
+	.err-top40{ top:40px;}
+	.err-top20{ top:20px;}
+	.err-top160{ top:160px;}
+	.err-top90{ top:90px;} 
+
+	/*登录*/
+	.login-box-cen{ width:240px; border:1px solid #cccccc; margin:0px auto 0px; height:318px; border-radius:10px; padding:0 64px; background:#fff;}
+	.login-box-cen-ti{ height:76px; line-height:76px; text-align:center; color:#222222; font-size:16px}
+	.login-box-cen-form{ position:relative;}
+	.login-box-cen-form-input{ float:left; padding-left:20px; border:1px solid #ccc; height:38px; line-height:38px; font-size:14px; color:#999999;}
+	.login-box-cen-form-select{ float:left; padding-left:20px; border:1px solid #ccc; height:38px; line-height:38px; font-size:14px; color:#999999;background:#fff;}
+	.login-box-cen-form-button{float:left; height:40px; line-height:40px; font-size:14px; color:#fff; text-align:center; background:#207fb3; cursor:pointer;}
+	.login-box-cen-form-ot{ height:30px; line-height:30px; text-align:right; font-size:12px;}
+	.login-box-cen-form-ot span{color:#999999;}
+	.login-box-cen-form-ot a{ color:#207fb3;}
+
+	.w218{ width:218px;}
+	.w238{ width:238px;}
+	.mar-bottom10{ margin-bottom:10px;}
+	/*注册*/
+
+	.register-box-con{ width:380px; padding: 0 310px; background:#fff; padding-bottom:180px;}
+	.register-box-con-ti{ height:114px; line-height:114px; text-align:center; font-size:14px; color:#222222; letter-spacing:1px;}
+	.login-box-cen-form-img{ float:left; height:40px; line-height:40px;overflow:hidden; background:#207fb3;}
+	.login-box-cen-form-mes{ float:left;border:none; height:40px; line-height:40px; text-align:center;font-size:14px; color:#fff; background:#207fb3; cursor:pointer; border-radius:5px;}
+	.register-box-cen-form{ position:relative;}
+	.register-box-cen-form-xieyi{ height:16px; line-height:16px;}
+	.register-box-cen-form-xieyi span{ display:inline-block; position:relative; height:16px; line-height:16px; width:17px; vertical-align:top; margin:0 36px 0 44px; cursor:pointer; background-image:url(../images/register_03.png); background-repeat:no-repeat; background-position:0px 0px;}
+	.register-box-cen-form-xieyi span.ok{background-position:-17px 0px;}
+	.register-box-cen-form-xieyi em{display:inline-block; height:16px; line-height:16px;vertical-align:top; font-size:14px;}
+	.register-box-cen-form-xieyi a{ color:#207fb3;}
+
+	.register-box-con2-box{}
+	.register-box-con2-box-left{ height:40px; line-height:40px; text-align:right; float:left; width:293px; color:#222222; font-size:16px;}
+	.register-box-con2-box-left strong{ font-weight: bold;}
+	.register-box-con2-box-right{float:left; width:380px; margin-left:20px; position:relative;}
+	.register-box-con2-box-right .register-box-con2-box-right-text{ font-size:16px; color:#207fb3; margin-left:20px; line-height:40px;}
+	.login-box-cen-form-textarea{float:left; padding-left:20px; border:1px solid #ccc;line-height:38px; font-size:14px; color:#999999; resize:none;}
+	.register-box-con2-box-upload{ position:relative; width:165px; height:98px; float:left;border:1px solid #ccc; margin-bottom:12px; float:left;}
+	.register-box-con2-box-upload .register-box-con2-box-upload-ti{ position:absolute; left:0px; top:0px;width:165px; height:98px; text-align:center; line-height:98px; font-size:18px; color:#207fb3; z-index:9; overflow:hidden; text-align:center; display:table-cell; }
+	.register-box-con2-box-upload .register-box-con2-box-upload-ti img{vertical-align:middle;}
+	.register-box-con2-box-upload input{ position:absolute; left:0px; top:0px;width:165px;z-index:99; opacity:0;filter:alpha(opacity=0);}
+	.register-box-con2-box-pw{ height:25px; line-height:25px; font-size:14px; color:#222222; float:left; width:380px;}
+
+
+	.w358{ width:358px;}
+	.w228{ width:228px;}
+	.w120{ width:120px;}
+	.w380{ width:380px;}
+	.w278{ width:278px;}
+	.w558{ width:558px;}
+	.h88{ height:88px;}
+	.h158{ height:158px;}
+	.h288{ height:288px;}
+	.h388{ height:388px;}
+	.mar-top50{ margin-top:50px;}
+	.mar-left10{ margin-left:10px;}
+	.mar-bottom20{ margin-bottom:20px;}
+	.bitian{ color:#dc2b2b;}
+</style>
+
+<script>
+	<!-- 百度统计 -->
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?c03806ede2152a8dba9823445769b537";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
+</head>
+
+<body>
+
+<br /><br />
+<h4 style="font-size:16px; text-align:center; font-weight:bold;">处理对比list</h4>    
+<br /><br />
+<!--中心-->
+<div class="content">
+	<div class="register-box">
+		<div class="wrap">
+			<div class="register-box-con2">   
+
+								
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left" style="width: 150px"><em class="bitian">*</em>主list</label>
+					<div class="register-box-con2-box-right">
+						<textarea class="login-box-cen-form-textarea w278 h288" style="resize: auto;line-height: 20px;" id="mainTxt" 
+							placeholder="aaa&#10;bbb&#10;ccc"></textarea>
+						<label class="err err-top90" id="main_err_text"></label>
+					</div>
+				
+					<label class="register-box-con2-box-left" style="width: 50px"><em class="bitian">*</em>从list</label>
+					<div class="register-box-con2-box-right">
+						<textarea class="login-box-cen-form-textarea w278 h288" style="resize: auto;line-height: 20px;" id="slaveTxt" 
+							placeholder="aaa&#10;bbb&#10;ccc"></textarea>
+						<label class="err err-top90" id="slave_err_text"></label>
+					</div>
+				</div>
+				
+				
+				
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"></label>
+					<div class="register-box-con2-box-right w558">
+						<input type="submit" value="交集" class="login-box-cen-form-button w120" id="intersection_btn" />
+
+						<input type="submit" value="差集" class="login-box-cen-form-button w120" style="margin-left: 20px;" id="difference_btn" />
+
+						<input type="submit" value="并集" class="login-box-cen-form-button w120" style="margin-left: 20px;" id="union_btn" />
+					</div>
+				</div>
+
+
+
+				<div class="register-box-con2-box clearfix mar-bottom20 mar-top50">
+					<label class="register-box-con2-box-left"><em class="bitian"></em>结果</label>
+					<div class="register-box-con2-box-right">
+						<textarea class="login-box-cen-form-textarea w558 h388" style="resize: auto;line-height: 20px;"  id="result" 
+							 placeholder=""></textarea>
+						<label class="err err-top90" id="result_text"></label>
+					</div>
+				</div>
+				
+			</div>
+		</div>        	
+	</div>	
+</div>
+<br /><br />
+
+<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		//交集
+		$("#intersection_btn").click(function(){
+			var mainTxt = $.trim($("#mainTxt").val());
+			if(mainTxt==''){
+				$("#main_err_text").text('请输入主list').show();
+				return;
+			}else{
+				$("#main_err_text").hide();
+			}
+
+			var slaveTxt = $.trim($("#slaveTxt").val());
+			if(slaveTxt==''){
+				$("#slave_err_text").text('请输入从list').show();
+				return;
+			}else{
+				$("#slave_err_text").hide();
+			}
+
+			var a = mainTxt.split('\n');
+			var b = slaveTxt.split('\n');
+					
+			$("#result").val("");
+
+			var result = [];
+	        for (var i = 0; i < a.length; i++) {
+	            var temp = a[i];
+	            for (var j = 0; j < b.length; j++) {
+	            	if (temp === b[j]) {
+	              		result.push(temp);
+	              		break;
+	            	}
+	            }
+	        }
+ 			
+
+			$("#result").val(result.join('\n'));
+
+		});
+		
+		//差集
+		$("#difference_btn").click(function(){
+			var mainTxt = $.trim($("#mainTxt").val());
+			if(mainTxt==''){
+				$("#main_err_text").text('请输入主list').show();
+				return;
+			}else{
+				$("#main_err_text").hide();
+			}
+
+			var slaveTxt = $.trim($("#slaveTxt").val());
+			if(slaveTxt==''){
+				$("#slave_err_text").text('请输入从list').show();
+				return;
+			}else{
+				$("#slave_err_text").hide();
+			}
+
+			var a = mainTxt.split('\n');
+			var b = slaveTxt.split('\n');
+
+			$("#result").val("");			 
+			
+			var result = a.slice(0);
+	        for (var i = 0; i < b.length; i++) {
+	            var temp = b[i];
+	            for (var j = 0; j < result.length; j++) {
+	            	if (temp === result[j]) {
+	              		result.splice(j, 1);
+	            	}
+	            }
+	        }
+
+        	$("#result").val(listRemoveRepeat(result).join('\n'));
+			
+
+		});
+
+		//并集
+		$("#union_btn").click(function(){
+			var mainTxt = $.trim($("#mainTxt").val());
+			if(mainTxt==''){
+				$("#main_err_text").text('请输入主list').show();
+				return;
+			}else{
+				$("#main_err_text").hide();
+			}
+
+			var slaveTxt = $.trim($("#slaveTxt").val());
+			if(slaveTxt==''){
+				$("#slave_err_text").text('请输入从list').show();
+				return;
+			}else{
+				$("#slave_err_text").hide();
+			}
+
+			var a = mainTxt.split('\n');
+			var b = slaveTxt.split('\n');
+
+			$("#result").val("");			 
+			
+			var result = a.concat(b);	        
+
+        	$("#result").val(listRemoveRepeat(result).join('\n'));
+			
+
+		});
+			
+	});
+
+
+	String.prototype.endWith = function(str){
+		if(str==null||str==""||this.length==0||str.length>this.length){
+		  return false;
+		}
+		if(this.substring(this.length-str.length)==str){
+		  return true;
+		} else{
+		  return false;
+		}
+		return true;
+	}
+
+	String.prototype.startWith = function(str){
+		if(str==null||str==""||this.length==0||str.length>this.length){
+		  return false;
+		}
+		if(this.substr(0,str.length)==str){
+		  return true;
+		} else{
+		  return false;
+		}
+		return true;
+	}
+
+	//去重
+    function listRemoveRepeat(c) {
+        var result = [];
+        for (var i = 0; i < c.length; i++) {
+          var flag = true;
+          var temp = c[i];
+          for (var j = i+1; j < c.length; j++) {
+            if (temp === c[j]) {
+              flag = false;
+              break;
+            }
+          }
+          if (flag) {
+            result.push(temp);
+          }
+        }
+        return result;
+    }
+
+	//下载文件
+	function download(filename, text) {
+		  var element = document.createElement('a');
+		  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		  element.setAttribute('download', filename);
+
+		  element.style.display = 'none';
+		  document.body.appendChild(element);
+
+		  element.click();
+
+		  document.body.removeChild(element);
+	}
+
+	
+</script>
+
+<div style="text-align:center;margin:150px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p style="display: none;">本页面由 阿胡哥 提供技术支持</p>
+
+</div>
+</body>
+</html>
+
