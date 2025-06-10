@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON转CSV工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .config-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .keys-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .keys-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #495057;
+            border: 2px solid #e1e5e9;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e1e5e9;
+            background: white;
+        }
+
+        .preview-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e5e9;
+            border-right: 1px solid #e1e5e9;
+            min-width: 100px;
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .preview-table th:last-child,
+        .preview-table td:last-child {
+            border-right: none;
+        }
+
+        .preview-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .preview-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a6fd8, #6b4190);
+        }
+
+        .data-info {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #666;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error-message {
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 10px;
+            padding: 15px;
+            color: #c33;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #efe;
+            border: 1px solid #cfc;
+            border-radius: 10px;
+            padding: 15px;
+            color: #363;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .example {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .example h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .example code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .precision-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 12px;
+            color: #856404;
+            margin-top: 10px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .precision-warning.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 10px 18px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .preview-table th,
+            .preview-table td {
+                min-width: 80px;
+                max-width: 150px;
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>JSON转CSV工具</h1>
+            <p>支持嵌套字段提取和自定义字段选择，保护大数字精度</p>
+        </div>
+
+        <div class="main-content">
+            <div class="config-section">
+                <h2>🔧 配置选项</h2>
+                
+                <div class="input-group">
+                    <label for="jsonInput">JSON数组数据：</label>
+                    <textarea id="jsonInput" rows="10" placeholder="请输入JSON数组数据..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="keysInput">指定字段（可选）：</label>
+                    <input type="text" id="keysInput" class="keys-input" placeholder="如：id,name,coupon_code,coupon_info.title">
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="convertToCSV()">
+                        ⚡ 转换并预览
+                    </button>
+                    <button class="btn btn-primary" id="downloadBtn" onclick="downloadCSV()" disabled>
+                        💾 下载CSV文件
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadExample()">
+                        📋 加载示例
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearAll()">
+                        🗑️ 清空数据
+                    </button>
+                </div>
+
+                <div class="example">
+                    <h4>字段指定说明：</h4>
+                    <p>• 用逗号分隔多个字段：<code>id,name,type</code></p>
+                    <p>• 嵌套字段用点号：<code>coupon_info.title</code></p>
+                    <p>• 留空则转换所有字段（嵌套对象会被打平）</p>
+                    <p>• 🔒 自动保护大数字精度（>15位数字转为字符串）</p>
+                </div>
+
+                <div id="precisionWarning" class="precision-warning">
+                    ⚠️ 检测到大数字，已自动转换为字符串以保护精度
+                </div>
+
+                <div id="message"></div>
+            </div>
+
+            <div class="section">
+                <h2>👀 数据预览</h2>
+                <div id="preview"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let csvData = '';
+        let fileName = 'converted_data.csv';
+        let hasBigNumbers = false;
+
+        // 加载示例数据
+        function loadExample() {
+            const exampleData = [{
+                "id": 168672003910032636,
+                "name": "创可贴",
+                "coupon_code": "168672003910032636",
+                "type": 1,
+                "gmt_create": "2025-05-14 15:51:04",
+                "coupon_info": {
+                    "comsumMessage": "新办会员可到店免费领取：卫生湿巾/外科口罩/创可贴三选一。",
+                    "title": "25年-新会员礼品3选1"
+                }
+            }];
+
+            document.getElementById('jsonInput').value = JSON.stringify(exampleData, null, 2);
+            document.getElementById('keysInput').value = 'id,name,coupon_code,coupon_info.title';
+            showMessage('示例数据已加载（包含大数字测试）', 'success');
+        }
+
+        // 检测并处理大数字的 JSON 解析器
+        function parseJSONWithBigNumbers(jsonString) {
+            hasBigNumbers = false;
+            
+            // 使用自定义 reviver 函数处理大数字
+            return JSON.parse(jsonString, (key, value) => {
+                // 检查是否为数字类型且精度可能丢失
+                if (typeof value === 'number') {
+                    // JavaScript 安全整数范围：-(2^53 - 1) 到 (2^53 - 1)
+                    if (Math.abs(value) > Number.MAX_SAFE_INTEGER) {
+                        hasBigNumbers = true;
+                        // 将大数字转换为字符串
+                        return value.toString();
+                    }
+                }
+                
+                // 检查字符串是否为大数字格式
+                if (typeof value === 'string' && /^\d{16,}$/.test(value)) {
+                    hasBigNumbers = true;
+                }
+                
+                return value;
+            });
+        }
+
+        // 预处理 JSON 字符串，将大数字转为字符串格式
+        function preprocessJSONString(jsonString) {
+            // 匹配超过15位的纯数字（不在引号内）
+            return jsonString.replace(/:\s*(\d{16,})(?=\s*[,}\]])/g, (match, number) => {
+                hasBigNumbers = true;
+                return `: "${number}"`;
+            });
+        }
+
+        // 获取嵌套对象的值
+        function getNestedValue(obj, path) {
+            return path.split('.').reduce((current, key) => {
+                return current && current[key] !== undefined ? current[key] : '';
+            }, obj);
+        }
+
+        // 打平嵌套对象
+        function flattenObject(obj, prefix = '') {
+            const flattened = {};
+            
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    const newKey = prefix ? `${prefix}.${key}` : key;
+                    
+                    if (obj[key] !== null && typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+                        Object.assign(flattened, flattenObject(obj[key], newKey));
+                    } else {
+                        flattened[newKey] = obj[key];
+                    }
+                }
+            }
+            
+            return flattened;
+        }
+
+        // 转换为CSV
+        function convertToCSV() {
+            const jsonInput = document.getElementById('jsonInput').value.trim();
+            const keysInput = document.getElementById('keysInput').value.trim();
+
+            if (!jsonInput) {
+                showMessage('请输入JSON数据', 'error');
+                return;
+            }
+
+            try {
+                // 重置大数字标志
+                hasBigNumbers = false;
+                
+                // 预处理 JSON 字符串，保护大数字
+                const preprocessedInput = preprocessJSONString(jsonInput);
+                
+                // 使用自定义解析器解析 JSON
+                const jsonData = parseJSONWithBigNumbers(preprocessedInput);
+                
+                // 显示精度保护警告
+                const warningDiv = document.getElementById('precisionWarning');
+                if (hasBigNumbers) {
+                    warningDiv.classList.add('show');
+                } else {
+                    warningDiv.classList.remove('show');
+                }
+                
+                if (!Array.isArray(jsonData)) {
+                    showMessage('JSON数据必须是数组格式', 'error');
+                    return;
+                }
+
+                if (jsonData.length === 0) {
+                    showMessage('JSON数组不能为空', 'error');
+                    return;
+                }
+
+                let processedData = jsonData;
+                let headers = [];
+
+                // 处理指定字段
+                if (keysInput) {
+                    const specifiedKeys = keysInput.split(',').map(k => k.trim());
+                    headers = specifiedKeys;
+                    
+                    processedData = jsonData.map(item => {
+                        const newItem = {};
+                        specifiedKeys.forEach(key => {
+                            newItem[key] = getNestedValue(item, key);
+                        });
+                        return newItem;
+                    });
+                } else {
+                    // 如果没有指定字段，打平所有嵌套对象
+                    processedData = jsonData.map(item => flattenObject(item));
+                    
+                    // 获取所有可能的字段名
+                    const allKeys = new Set();
+                    processedData.forEach(item => {
+                        Object.keys(item).forEach(key => allKeys.add(key));
+                    });
+                    headers = Array.from(allKeys);
+                }
+
+                // 生成CSV内容
+                csvData = generateCSV(processedData, headers);
+                
+                // 显示预览
+                showPreview(processedData, headers);
+                
+                // 启用下载按钮
+                document.getElementById('downloadBtn').disabled = false;
+                
+                let successMsg = `转换成功！共 ${processedData.length} 行数据，${headers.length} 个字段`;
+                if (hasBigNumbers) {
+                    successMsg += '（已保护大数字精度）';
+                }
+                showMessage(successMsg, 'success');
+
+            } catch (error) {
+                showMessage(`JSON解析错误: ${error.message}`, 'error');
+            }
+        }
+
+        // 生成CSV字符串
+        function generateCSV(data, headers) {
+            const csvRows = [];
+            
+            // 添加表头
+            csvRows.push(headers.join(','));
+            
+            // 添加数据行
+            data.forEach(item => {
+                const values = headers.map(header => {
+                    let value = item[header];
+                    
+                    // 处理特殊字符
+                    if (value === null || value === undefined) {
+                        value = '';
+                    } else {
+                        value = String(value);
+                        // 如果包含逗号、换行符或引号，需要用引号包围
+                        if (value.includes(',') || value.includes('\n') || value.includes('"')) {
+                            value = '"' + value.replace(/"/g, '""') + '"';
+                        }
+                    }
+                    
+                    return value;
+                });
+                
+                csvRows.push(values.join(','));
+            });
+            
+            return csvRows.join('\n');
+        }
+
+        // 显示预览表格
+        function showPreview(data, headers) {
+            const previewDiv = document.getElementById('preview');
+            
+            if (data.length === 0) {
+                previewDiv.innerHTML = '<p>没有数据可预览</p>';
+                return;
+            }
+
+            // 创建表格容器，支持水平滚动
+            let tableHTML = '<div class="table-container">';
+            tableHTML += '<table class="preview-table"><thead><tr>';
+            
+            // 表头
+            headers.forEach(header => {
+                tableHTML += `<th title="${header}">${header}</th>`;
+            });
+            tableHTML += '</tr></thead><tbody>';
+            
+            // 数据行（最多显示前10行）
+            const previewData = data.slice(0, 10);
+            previewData.forEach(item => {
+                tableHTML += '<tr>';
+                headers.forEach(header => {
+                    const value = item[header] || '';
+                    const displayValue = String(value);
+                    
+                    // 如果是大数字，添加特殊样式提示
+                    let cellClass = '';
+                    if (typeof value === 'string' && /^\d{16,}$/.test(value)) {
+                        cellClass = ' style="background-color: #fff3cd; font-weight: bold;"';
+                    }
+                    
+                    tableHTML += `<td title="${displayValue}"${cellClass}>${displayValue}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table></div>';
+            
+            // 添加数据统计信息
+            tableHTML += `<div class="data-info">`;
+            if (data.length > 10) {
+                tableHTML += `显示前10行，共 ${data.length} 行数据，${headers.length} 个字段`;
+            } else {
+                tableHTML += `共 ${data.length} 行数据，${headers.length} 个字段`;
+            }
+            if (headers.length > 5) {
+                tableHTML += ` | 💡 表格支持水平滚动查看更多字段`;
+            }
+            if (hasBigNumbers) {
+                tableHTML += ` | 🔒 大数字已用黄色背景标识`;
+            }
+            tableHTML += `</div>`;
+            
+            previewDiv.innerHTML = tableHTML;
+        }
+
+        // 下载CSV文件
+        function downloadCSV() {
+            if (!csvData) {
+                showMessage('没有可下载的数据', 'error');
+                return;
+            }
+
+            // 添加BOM以支持中文
+            const BOM = '\uFEFF';
+            const blob = new Blob([BOM + csvData], { type: 'text/csv;charset=utf-8;' });
+            
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', fileName);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showMessage('CSV文件下载成功！', 'success');
+        }
+
+        // 清空所有数据
+        function clearAll() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('keysInput').value = '';
+            document.getElementById('preview').innerHTML = '';
+            document.getElementById('message').innerHTML = '';
+            document.getElementById('precisionWarning').classList.remove('show');
+            document.getElementById('downloadBtn').disabled = true;
+            csvData = '';
+            hasBigNumbers = false;
+        }
+
+        // 显示消息
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('message');
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            messageDiv.innerHTML = `<div class="${className}">${message}</div>`;
+            
+            // 3秒后自动清除消息
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 3000);
+        }
+
+        // 页面加载时初始化
+        window.onload = function() {
+            loadExample();
+        };
+    </script>
+</body>
+</html>

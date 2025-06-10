@@ -173,7 +173,7 @@
 
 			var result = "";
 			for (var i = 0; i < num; i++) {
-				result += sql.replace(/\$SEQ/, prefixZero(i,num.length) ) + end;
+				result += sql.replace(/\$SEQ/g, prefixZero(i,num.length) ) + end;
 
 			}
 
