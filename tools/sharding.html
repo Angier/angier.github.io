@@ -121,6 +121,7 @@
 							<option value ="2">后10前5位</option>
 							<option value ="3">前5位</option>
 							<option value ="4">后5位前2-后10前5位后3</option>
+							<option value ="5">自定义取模</option>
 						</select>
 						<label class="err err-top40" id="rule_type_text"></label>
 					</div>
@@ -150,6 +151,15 @@
 						</select>
 						<label class="err err-top90" id="table_num_text"></label>
 					</div>
+				</div>
+
+				<div class="register-box-con2-box clearfix mar-bottom20">
+					<label class="register-box-con2-box-left"><em class="bitian"></em>ID2</label>
+					<div class="register-box-con2-box-right">
+						<input type="number" class="login-box-cen-form-input w358" placeholder="数据ID" id="data_num">
+						<label class="err err-top40" id="data_num_text"  >请输入ID</label>
+					</div>
+					
 				</div>
 				
 				<div class="register-box-con2-box clearfix mar-bottom20">
@@ -188,6 +198,24 @@
 
 <script type="text/javascript">
 	$(function(){
+        // 默认隐藏“ID2”模块
+        $("#data_num").closest(".register-box-con2-box").hide();
+
+        // 当策略选择“自定义取模”时显示“ID2”模块
+        $("#rule_type").change(function(){
+            if($(this).val() == 5){ // 自定义取模
+                $("#db_num").closest(".register-box-con2-box").hide();
+                $("#table_num").closest(".register-box-con2-box").hide();
+
+                $("#data_num").closest(".register-box-con2-box").show();
+            } else {
+                $("#db_num").closest(".register-box-con2-box").show();
+                $("#table_num").closest(".register-box-con2-box").show();
+
+                $("#data_num").closest(".register-box-con2-box").hide();
+            }
+        });
+
 		$("#info_submit").click(function(){
 			var data_id = $("#data_id").val();
 			data_id = $.trim(data_id);
@@ -242,7 +270,28 @@
 				var table = getLastNumber(getFirstNumber(getLastNumber(data_id, 10), 5),3) % table_num;
 
 				$("#result").val("库："+ db +"\n表："+ (table+128));
-			}
+			}else if(rule_type==5){// 自定义取模
+                var data_num = $("#data_num").val();
+                data_num = $.trim(data_num);
+                if(data_num == ''){
+                    $("#data_num_text").text('请输入ID2').show();
+                    return;
+                } else {
+                    $("#data_num_text").hide();
+                }
+
+                if(!isNumber(data_num)){
+                    $("#data_num_text").text('ID2必须是数字').show();
+                    return;
+                }
+
+
+                // 取模计算
+                var mod_id = data_id % data_num;
+
+                $("#result").val("ID取模结果：" + mod_id );
+
+            }
 
 		});
 		
