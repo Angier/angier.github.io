@@ -991,7 +991,7 @@
         previewData.forEach(item => {
             tableHTML += '<tr>';
             headers.forEach(header => {
-                const value = item[header] || '';
+                const value = item.hasOwnProperty(header) ? item[header] : '';
                 const displayValue = String(value);
 
                 // 如果是大数字，添加特殊样式提示
